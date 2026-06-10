@@ -1,4 +1,4 @@
-import { Role } from "@prisma/client";
+import { UserRole } from "@prisma/client";
 
 export class authResponseDto {
     accessToken: string;
@@ -6,7 +6,7 @@ export class authResponseDto {
     message: string;
     user: {
         email: string;
-        role: Role;
+        role: UserRole;
         id: string;
         firstName: string | null;
         lastName: string | null;

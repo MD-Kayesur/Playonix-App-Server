@@ -16,7 +16,7 @@ export class AuthService {
 
     async register(registerDto: RegisterDto): Promise<authResponseDto> {
         const { email, password, firstName, lastName } = registerDto;
-        
+        console.log(email, password, firstName, lastName);
         // Use Type Casting to 'any' to bypass stale IDE / client compilation warnings
         const prisma = this.prismaService as any;
 
@@ -36,7 +36,7 @@ export class AuthService {
                     firstName,
                     lastName,
                 },
-                select: {
+                 select: {
                     id: true,
                     email: true,
                     firstName: true,
@@ -48,7 +48,7 @@ export class AuthService {
                     profileImage: true,
                 },
             });
-
+console.log(user);
             const tokens = await this.generateTokens(user.id, user.email);
             await this.updateRefreshToken(user.id, tokens.refreshToken);
 
