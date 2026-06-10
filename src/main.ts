@@ -3,9 +3,21 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as express from 'express';
+import { join } from 'path';
+import { existsSync, mkdirSync } from 'fs';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Ensure uploads directory exists
+  const uploadsDir = join(process.cwd(), 'uploads');
+  if (!existsSync(uploadsDir)) {
+    mkdirSync(uploadsDir);
+  }
+
+  // Serve static files from the uploads directory
+  app.use('/uploads', express.static(uploadsDir));
 
   // set global prefix
   app.setGlobalPrefix('api/v1');

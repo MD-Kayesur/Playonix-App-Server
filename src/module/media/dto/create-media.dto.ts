@@ -22,10 +22,11 @@ export class CreateMediaDto {
   @ApiProperty({
     example: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     description: 'URL of the media asset',
+    required: false,
   })
   @IsString()
-  @IsNotEmpty()
-  url: string;
+  @IsOptional()
+  url?: string;
 
   @ApiProperty({
     example: 'Energy Casino',
@@ -38,10 +39,11 @@ export class CreateMediaDto {
   @ApiProperty({
     example: 'https://images.unsplash.com/photo-1596838132731-3301c3fd4317?w=100',
     description: 'Avatar image URL',
+    required: false,
   })
   @IsString()
-  @IsNotEmpty()
-  avatar: string;
+  @IsOptional()
+  avatar?: string;
 
   @ApiProperty({
     example: '4.4 (2 Reviews)',

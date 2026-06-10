@@ -29,9 +29,9 @@ export class MediaService {
       data: {
         title: title?.trim(),
         type: type.trim(),
-        url: url.trim(),
+        url: url?.trim() ?? '',
         username: username.trim(),
-        avatar: avatar.trim(),
+        avatar: avatar?.trim() ?? '',
         rating: rating.trim(),
         description: description.trim(),
         likes: likes.trim(),
