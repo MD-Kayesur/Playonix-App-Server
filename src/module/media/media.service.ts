@@ -49,7 +49,7 @@ export class MediaService {
     meta: { total: number; page: number; limit: number; totalPage: number };
   }> {
     const { page = 1, limit = 10, search, type } = queryDto;
-    const where: Prisma.mediaWhereInput = {};
+    const where: any = {};
 
     if (type) {
       where.type = { equals: type, mode: 'insensitive' };
