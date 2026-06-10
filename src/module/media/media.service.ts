@@ -11,12 +11,35 @@ export class MediaService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createMediaDto: CreateMediaDto): Promise<MediaResponseDto> {
-    const { title, type, url } = createMediaDto;
+    const {
+      title,
+      type,
+      url,
+      username,
+      avatar,
+      rating,
+      description,
+      likes,
+      comments,
+      shares,
+      buttonText,
+      clickUrl,
+    } = createMediaDto;
+
     return this.prisma.media.create({
       data: {
-        title: title.trim(),
+        title: title?.trim(),
         type: type.trim(),
         url: url.trim(),
+        username: username.trim(),
+        avatar: avatar.trim(),
+        rating: rating.trim(),
+        description: description.trim(),
+        likes: likes.trim(),
+        comments: comments.trim(),
+        shares: shares.trim(),
+        buttonText: buttonText.trim(),
+        clickUrl: clickUrl.trim(),
       },
     });
   }
@@ -37,6 +60,8 @@ export class MediaService {
         { title: { contains: search, mode: 'insensitive' } },
         { type: { contains: search, mode: 'insensitive' } },
         { url: { contains: search, mode: 'insensitive' } },
+        { username: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
       ];
     }
 
@@ -74,13 +99,36 @@ export class MediaService {
     // Check if media exists first
     await this.findOne(id);
 
-    const { title, type, url } = updateMediaDto;
+    const {
+      title,
+      type,
+      url,
+      username,
+      avatar,
+      rating,
+      description,
+      likes,
+      comments,
+      shares,
+      buttonText,
+      clickUrl,
+    } = updateMediaDto;
+
     return this.prisma.media.update({
       where: { id },
       data: {
-        title: title?.trim(),
+        title: title !== undefined ? title?.trim() : undefined,
         type: type?.trim(),
         url: url?.trim(),
+        username: username?.trim(),
+        avatar: avatar?.trim(),
+        rating: rating?.trim(),
+        description: description?.trim(),
+        likes: likes?.trim(),
+        comments: comments?.trim(),
+        shares: shares?.trim(),
+        buttonText: buttonText?.trim(),
+        clickUrl: clickUrl?.trim(),
       },
     });
   }
