@@ -4,7 +4,6 @@ import { CreateMediaDto } from './dto/create-media.dto';
 import { UpdateMediaDto } from './dto/update-media.dto';
 import { QueryMediaDto } from './dto/query-media.dto';
 import { MediaResponseDto } from './dto/media-response.dto';
-import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class MediaService {
@@ -26,7 +25,7 @@ export class MediaService {
       clickUrl,
     } = createMediaDto;
 
-    return this.prisma.media.create({
+    return (this.prisma as any).media.create({
       data: {
         title: title?.trim(),
         type: type.trim(),
@@ -65,9 +64,9 @@ export class MediaService {
       ];
     }
 
-    const total = await this.prisma.media.count({ where });
+    const total = await (this.prisma as any).media.count({ where });
 
-    const mediaList = await this.prisma.media.findMany({
+    const mediaList = await (this.prisma as any).media.findMany({
       where,
       skip: (page - 1) * limit,
       take: limit,
@@ -86,7 +85,7 @@ export class MediaService {
   }
 
   async findOne(id: number): Promise<MediaResponseDto> {
-    const media = await this.prisma.media.findUnique({
+    const media = await (this.prisma as any).media.findUnique({
       where: { id },
     });
     if (!media) {
@@ -114,7 +113,7 @@ export class MediaService {
       clickUrl,
     } = updateMediaDto;
 
-    return this.prisma.media.update({
+    return (this.prisma as any).media.update({
       where: { id },
       data: {
         title: title !== undefined ? title?.trim() : undefined,
@@ -137,7 +136,7 @@ export class MediaService {
     // Check if media exists first
     await this.findOne(id);
 
-    await this.prisma.media.delete({
+    await (this.prisma as any).media.delete({
       where: { id },
     });
 
