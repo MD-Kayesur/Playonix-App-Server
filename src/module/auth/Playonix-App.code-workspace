@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "../../.."
+		},
+		{
+			"path": "../../../../Nest_js_Next_js_Full_Stack_Project/nest_js_next_js_full_stack_project_backend"
 		}
 	],
 	"settings": {}
