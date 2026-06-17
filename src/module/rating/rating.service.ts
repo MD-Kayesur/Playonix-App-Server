@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRatingDto } from './dto/create-rating.dto';
+import { UpdateRatingDto } from './dto/update-rating.dto';
 
 export interface Rating {
   id: number;
@@ -22,6 +23,20 @@ export class RatingService {
     };
     this.ratings.push(newRating);
     return newRating;
+  }
+
+  update(id: number, updateRatingDto: UpdateRatingDto): Rating {
+    const ratingIndex = this.ratings.findIndex((r) => r.id === id);
+    if (ratingIndex === -1) {
+      throw new NotFoundException(`Rating with ID ${id} not found`);
+    }
+    const existingRating = this.ratings[ratingIndex];
+    const updatedRating = {
+      ...existingRating,
+      ...updateRatingDto,
+    };
+    this.ratings[ratingIndex] = updatedRating;
+    return updatedRating;
   }
 
   findAllByMediaId(mediaId: number): Rating[] {

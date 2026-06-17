@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Body, Param, ParseIntPipe, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Patch, ParseIntPipe, HttpCode, HttpStatus } from '@nestjs/common';
 import { RatingService, Rating } from './rating.service';
 import { CreateRatingDto } from './dto/create-rating.dto';
+import { UpdateRatingDto } from './dto/update-rating.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 
 @ApiTags('rating')
@@ -29,6 +30,32 @@ export class RatingController {
   @HttpCode(HttpStatus.CREATED)
   create(@Body() createRatingDto: CreateRatingDto): Rating {
     return this.ratingService.create(createRatingDto);
+  }
+
+  @Patch(':id')
+  @ApiOperation({ summary: 'Update an existing rating' })
+  @ApiBody({ type: UpdateRatingDto })
+  @ApiResponse({
+    status: 200,
+    description: 'Rating updated successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        id: { type: 'number', example: 1 },
+        mediaId: { type: 'number', example: 1 },
+        rating: { type: 'number', example: 4 },
+        comment: { type: 'string', example: 'Updated awesome content!' },
+        createdAt: { type: 'string', example: '2026-06-17T12:00:00.000Z' },
+      },
+    },
+  })
+  @ApiResponse({ status: 404, description: 'Rating not found' })
+  @HttpCode(HttpStatus.OK)
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateRatingDto: UpdateRatingDto,
+  ): Rating {
+    return this.ratingService.update(id, updateRatingDto);
   }
 
   @Get('media/:mediaId')
